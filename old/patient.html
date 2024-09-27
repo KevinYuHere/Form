@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+		
+		<!-- 引入 Flatpickr 的 CSS 文件 -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+		<!-- 引入 Flatpickr 的 JavaScript 文件 -->
+		<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+		
+		<!-- 引入中文语言包 -->
+		<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script> 
+
+		<link rel="stylesheet" href="css/patient.css">
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>chat</title>
+	</head>
+	<body>
+		<div id="patient-screen" class="patient hidden">
+			<div class="chat-container">
+			    <div class="chat-header">
+					<i class="fas fa-arrow-circle-left back-icon" onclick="goBack()"></i>
+			        <h1>Chat</h1>
+			    </div>
+			    <div class="chat-box">
+			        <!-- 消息将显示在这里 -->
+			    </div>
+			    <div class="chat-bar">
+			        <input type="text" id="user-input" placeholder="请输入病情描述...">
+			        <button onclick="sendMessage()">
+						<i class="fas fa-paper-plane" style="margin-right: 6px;"></i>发送
+					</button>
+			    </div>
+			</div>
+		</div>
+		
+		<script>
+			function goBack() {
+				window.location.href = 'index.html';  // 替换为实际的页面地址
+			}
+			
+			function sendMessage() {
+				const input = document.getElementById('user-input');
+				const chatBox = document.querySelector('.chat-box');
+		
+				if (input.value.trim() === '') {
+					return; // 不发送空消息
+				}
+		
+				// 创建用户消息元素
+				const userMessage = document.createElement('div');
+				userMessage.className = 'message right'; // 设置为右侧消息
+				userMessage.textContent = input.value;
+		
+				// 添加到聊天框中
+				chatBox.appendChild(userMessage);
+				
+				// 清空输入框
+				input.value = '';
+					
+				// 滚动到聊天框底部
+				chatBox.scrollTop = chatBox.scrollHeight;
+		
+				// 发送请求到后端
+				fetch(`/chat/${encodeURIComponent(input.value)}`, {
+				    method: 'GET',
+				    headers: {
+				        'Content-Type': 'application/json'
+				    }
+				})
+				.then(response => response.json())
+				.then(data => {
+					// 创建系统消息元素
+					const backendMessage = document.createElement('div');
+					backendMessage.className = 'message left'; // 设置为左侧消息
+					backendMessage.textContent = data.response; // 显示后端响应的数据
+		
+					// 添加到聊天框中
+					chatBox.appendChild(backendMessage);
+		
+					// 滚动到聊天框底部
+					chatBox.scrollTop = chatBox.scrollHeight;
+				})
+				.catch(error => {
+					console.error('Error:', error);
+				});
+			}
+			
+		// 	function sendMessage() {
+		// 		const input = document.getElementById('user-input');
+		// 		const chatBox = document.querySelector('.chat-box');
+		
+		// 		if (input.value.trim() === '') {
+		// 			return; // 不发送空消息
+		// 		}
+		
+		// 		// 创建用户消息元素
+		// 		const userMessage = document.createElement('div');
+		// 		userMessage.className = 'message right'; // 设置为右侧消息
+		// 		userMessage.textContent = input.value;
+		
+		// 		// 添加到聊天框中
+		// 		chatBox.appendChild(userMessage);
+		
+		// 		// 清空输入框
+		// 		input.value = '';
+		
+		// 		// 滚动到聊天框底部
+		// 		chatBox.scrollTop = chatBox.scrollHeight;
+		
+		// 		// 添加测试响应消息
+		// 		const backendMessage = document.createElement('div');
+		// 		backendMessage.className = 'message left'; // 设置为左侧消息
+		// 		backendMessage.textContent = 'This is a test response'; // 测试响应的内容
+		
+		// 		// 添加到聊天框中
+		// 		chatBox.appendChild(backendMessage);
+		
+		// 		// 滚动到聊天框底部
+		// 		chatBox.scrollTop = chatBox.scrollHeight;
+		// 	}
+		</script>
+	</body>
+</html>

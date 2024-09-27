@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+		
+		<!-- 引入 Flatpickr 的 CSS 文件 -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+		<!-- 引入 Flatpickr 的 JavaScript 文件 -->
+		<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+		
+		<!-- 引入中文语言包 -->
+		<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script> 
+		
+		<link rel="stylesheet" href="css/doctor.css">
+		
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>癫痫患者管理系统</title>
+	</head>
+	<body>
+		<div id="doctor-screen">
+			<div class="top-nav">
+				<i class="fas fa-arrow-circle-left back-icon" onclick="goBack()"></i>
+				<div class="logo">癫痫患者管理系统</div>
+				<div class="nav-icons">
+					<i class="fas fa-search"></i>
+					<i class="fas fa-bell"></i>
+					<i class="fas fa-cog"></i>
+					<i class="fas fa-user"></i>
+				</div>
+			</div>
+			<div class="sidebar">
+				<ul>
+					<li><i class="fas fa-desktop"></i>工作台</li>
+					<li><i class="fas fa-chart-bar"></i>数据可视化</li>
+					<li><i class="fas fa-tasks"></i>
+						项目1
+						<ul class="sub-menu">
+							<li>项目</li>
+							<li>项目</li>
+						</ul>
+					</li>
+					<li><i class="fas fa-tasks"></i>
+						项目2
+						<ul class="sub-menu">
+							<li>项目</li>
+							<li>项目</li>
+						</ul>
+					</li>
+					<li id="patient-list-button"><i class="fas fa-check-circle"></i>患者列表</li>
+				</ul>
+			</div>
+	
+			<div class="content">
+				<div id="show-page" class="container">
+					<div class="header">
+						<h1>患者管理系统</h1>
+					</div>
+					<div class="search-bar">
+						<div class="form-row">
+							<label for="patientId">患者编号</label>
+							<input type="text" id="patientId" placeholder="请输入编号">
+						
+							<label for="patientName">患者姓名</label>
+							<input type="text" id="patientName" placeholder="请输入姓名">
+	
+							<label for="project">参与项目</label>
+							<select id="project">
+								<option value="全部">全部</option>
+							</select>
+							<button><i class="fas fa-search"></i>查询</button>
+						</div>
+						<div class="form-row">
+							<label for="filter">筛选方式</label>
+							<select id="filter">
+								<option value="全部">全部</option>
+							</select>
+	
+							<label for="dateRange">创建时间</label>
+							<input type="text" id="dateRange" placeholder="选择日期范围">
+							
+							<label for="filter">状态</label>
+							<select id="filter">
+								<option value="全部">全部</option>
+							</select>
+							<div class="reset">
+								<button><i class="fas fa-redo-alt"></i>重置</button>
+							</div>
+						</div>
+					</div>
+					<div class="add">
+						<button id="new-button"><i class="fas fa-plus"></i>新建</button>
+						<button id="new-button">批量导入</button>	
+						<button id="new-button"><i class="fas fa-download"></i>下载</button>
+					</div>
+					
+					<div class="table-container">
+						<table>
+							<thead>
+								<tr>
+									<th>患者编号</th>
+									<th>患者姓名</th>
+									<th>参与项目</th>
+									<th>填写方式</th>
+									<th>创建时间</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="patient-table">
+								<!-- Dynamic content will be added here -->
+							</tbody>
+						</table>
+					</div>
+				</div>
+				
+					
+				
+				<div id="add-page" class="container hidden">
+					
+					<div class="form-group">
+						<h1 style="color: black;">基本信息</h1>
+						<div class="form-row">
+							<label for="appointmentDate">就诊日期</label>
+							<input type="date" id="appointmentDate" name="appointmentDate">
+							<label for="registerNumber">华西门诊登记号</label>
+							<input type="text" id="registerNumber" placeholder="请输入门诊登记号">
+							<label for="name">姓名</label>
+							<input type="text" id="name" placeholder="请输入患者姓名">
+						</div>
+						<div class="form-row">
+							<label for="ethnicity">具体民族</label>
+							<input type="radio" id="ethnicity-1" name="ethnicity" value="ethnicity-1"> 
+							<span class="note-text">1=汉族</span>
+							<input type="radio" id="ethnicity-2" name="ethnicity" value="ethnicity-2"> 
+							<span class="note-text">2=其他民族（具体为</span>
+							<input type="text" id="other-ethnicity-text" name="other-ethnicity-text" style="width: 30px;margin-right: 10px"> 
+							<span class="note-text">族）</span>
+							
+							<label for="gender">性别</label>
+							<input type="radio" id="gender-1" name="gender" value="gender-1"> 
+							<span class="note-text">1=女</span>
+							<input type="radio" id="gender-2" name="gender" value="gender-2"> 
+							<span class="note-text">2=男</span>
+							
+							<label for="hand" style="margin-left: 50px;">惯用手</label>
+							<input type="radio" id="hand-1" name="hand" value="hand-1">
+							<span class="note-text">左利手</span>
+							<input type="radio" id="hand-2" name="hand" value="hand-2"> 
+							<span class="note-text">右利手</span>
+						</div>
+						<div class="form-row">
+							<label for="ID-number">身份证号</label>
+							<input type="text" id="ID-number" placeholder="请输入身份证号">
+							<label for="birth-date">出生日期</label>
+							<input type="text" id="birth-date" name="birth-date" placeholder="选择日期和时间">
+							<label for="age">登记时年龄</label>
+							<input type="text" id="age" placeholder="请输入年龄">
+						</div>
+						<div class="form-row">
+							<label for="phone-number">电话号码</label>
+							<input type="text" id="phone-number" placeholder="请输入电话号码">
+						</div>
+					</div>
+		
+					
+					<div class="form-group">
+						<h1 style="color: black;">现病史</h1>
+						<textarea id="medical-history" class="form-group-textarea" placeholder="请输入病史记录（NLP识别）"></textarea>
+						<div class="condition">
+							<label for="startTime" style="white-space: normal;">首次发作具体时间</label>
+							<i class="fas fa-question-circle" title="提示信息"></i>
+							<input type="text" id="startTime" name="startTime" placeholder="选择日期和时间">
+						</div>
+						<div class="condition">
+							<label for="state">发作时状态</label>
+							<i class="fas fa-question-circle" title="提示信息"></i>
+							<input type="checkbox" id="state-1" name="state[]" value="state-1">
+							<span class="note-text">1=清醒（醒后2小时内）</span>
+							<input type="checkbox" id="state-2" name="state[]" value="state-2"> 
+							<span class="note-text">2=入睡前</span>
+							<input type="checkbox" id="state-3" name="state[]" value="state-3">
+							<span class="note-text">3=入睡1小时内</span>
+							<input type="checkbox" id="state-4" name="state[]" value="state-4">
+							<span class="note-text">4=熟睡中（睡醒前1小时内）</span>
+						</div>
+						<div class="condition" style="align-items: flex-start;">					
+							<label for="foreboding">是否有先兆</label>
+							<i class="fas fa-question-circle" title="提示信息"></i>
+							<input type="radio" id="foreboding-1" name="foreboding" value="foreboding-0">
+							<span class="note-text">0=无</span>
+							<input type="radio" id="foreboding-2" name="foreboding" value="foreboding-1"> 
+							<span class="note-text">1=有</span>					
+							<div class="sub-checkbox">
+								<span class="note-text">（</span>
+								<input type="checkbox" id="foreboding-1-1" name="foreboding-1[]" value="foreboding-1-1">
+								<span class="note-text">听觉先兆</span>
+								<input type="checkbox" id="foreboding-1-2" name="foreboding-1[]" value="foreboding-1-2">
+								<span class="note-text">视觉先兆</span>
+								<input type="checkbox" id="foreboding-1-3" name="foreboding-1[]" value="foreboding-1-3">
+								<span class="note-text">嗅觉先兆</span>
+								<input type="checkbox" id="foreboding-1-4" name="foreboding-1[]" value="foreboding-1-4">
+								<span class="note-text">言语先兆</span>
+								<input type="checkbox" id="foreboding-1-5" name="foreboding-1[]" value="foreboding-1-5">
+								<span class="note-text">运动先兆</span>
+								<input type="checkbox" id="foreboding-1-6" name="foreboding-1[]" value="foreboding-1-6">
+								<span class="note-text">情感先兆</span>
+								<input type="checkbox" id="foreboding-1-7" name="foreboding-1[]" value="foreboding-1-7">
+								<span class="note-text">躯体感觉异常</span>
+								<input type="checkbox" id="foreboding-1-8" name="foreboding-1[]" value="foreboding-1-8">
+								<span class="note-text">幻觉</span>
+								<input type="checkbox" id="foreboding-1-9" name="foreboding-1[]" value="foreboding-1-9">
+								<span class="note-text">其他，请描述</span>
+								<input type="text" id="foreboding-1-other-text" name="foreboding-1-other-text" style="margin-right: 10px">
+								<span class="note-text">）</span>
+							</div>
+						</div>
+						<div class="condition">
+							<label for="consciousness">意识情况</label>
+							<i class="fas fa-question-circle" title="提示信息"></i>
+							<input type="radio" id="consciousness-1" name="consciousness" value="consciousness-1">
+							<span class="note-text">1=意识障碍</span>
+							<div class="sub-checkbox">
+								<span class="note-text">（</span>
+								<input type="checkbox" id="consciousness-1-1" name="consciousness-1[]" value="consciousness-1-1">
+								<span class="note-text">意识丧失</span>
+								<input type="checkbox" id="consciousness-1-2" name="consciousness-1[]" value="consciousness-1-2">
+								<span class="note-text">呼之不应</span>
+								<input type="checkbox" id="consciousness-1-3" name="consciousness-1[]" value="consciousness-1-3">
+								<span class="note-text">愣神</span>
+								<input type="checkbox" id="consciousness-1-4" name="consciousness-1[]" value="consciousness-1-4">
+								<span class="note-text">大脑空白感</span>
+								<input type="checkbox" id="consciousness-1-5" name="consciousness-1[]" value="consciousness-1-5">
+								<span class="note-text">记忆力损伤</span>
+								<input type="checkbox" id="consciousness-1-6" name="consciousness-1[]" value="consciousness-1-6">
+								<span class="note-text">其他，具体为</span>
+								<input type="text" id="consciousness-1-other-text" name="consciousness-1-other-text" style="margin-right: 10px">
+								<span class="note-text">）</span>
+							</div>
+						</div>
+						<div class="condition" style="margin-top: 10px;">
+							<!-- 空label占位 -->
+							<label for="conscious-2" style="visibility: hidden;"></label>
+							<i class="fas fa-question-circle" style="visibility: hidden;"></i>
+							<input type="radio" id="consciousness-2" name="consciousness" value="consciousness-2">
+							<span class="note-text">2=知觉保留</span>
+							<div class="sub-checkbox">
+								<span class="note-text">（</span>
+								<input type="checkbox" id="consciousness-2-1" name="consciousness-2[]" value="consciousness-2-1">
+								<span class="note-text">意识清楚</span>
+								<input type="checkbox" id="consciousness-2-2" name="consciousness-2[]" value="consciousness-2-2">
+								<span class="note-text">能回忆发作过程</span>
+								<span class="note-text">）</span>
+							</div>
+						</div>
+						<div class="condition" style="align-items: flex-start;">
+							<label for="motor" style="white-space: normal;">是否伴有运动症状</label>
+							<i class="fas fa-question-circle" title="提示信息"></i>
+							<input type="radio" id="motor-0" name="motor" value="motor-0">
+							<span class="note-text">0=否</span>
+							<input type="radio" id="motor-1" name="motor" value="motor-1"> 
+							<span class="note-text">1=是</span>
+							<div class="sub-checkbox">
+								<span class="note-text">（</span>
+								<input type="checkbox" id="motor-1-1" name="motor-1[]" value="motor-1-1">
+								<span class="note-text">强直</span>
+								<input type="checkbox" id="motor-1-2" name="motor-1[]" value="motor-1-2">
+								<span class="note-text">阵挛</span>
+								<input type="checkbox" id="motor-1-3" name="motor-1[]" value="motor-1-3">
+								<span class="note-text">强直-阵挛</span>
+								<input type="checkbox" id="motor-1-4" name="motor-1[]" value="motor-1-4">
+								<span class="note-text">痉挛</span>
+								<input type="checkbox" id="motor-1-5" name="motor-1[]" value="motor-1-5">
+								<span class="note-text">肌阵挛</span>
+								<input type="checkbox" id="motor-1-6" name="motor-1[]" value="motor-1-6">
+								<span class="note-text">偏转</span>
+								<input type="checkbox" id="motor-1-7" name="motor-1[]" value="motor-1-7">
+								<span class="note-text">运动停止</span>
+								<input type="checkbox" id="motor-1-8" name="motor-1[]" value="motor-1-8">
+								<span class="note-text">失张力</span>
+								<input type="checkbox" id="motor-1-9" name="motor-1[]" value="motor-1-9">
+								<span class="note-text">持物脱落</span>
+								<input type="checkbox" id="motor-1-10" name="motor-1[]" value="motor-1-10">
+								<span class="note-text">跌倒</span>
+								<input type="checkbox" id="motor-1-11" name="motor-1[]" value="motor-1-11">
+								<span class="note-text">眼睑肌阵挛</span>
+								<input type="checkbox" id="motor-1-12" name="motor-1[]" value="motor-1-12">
+								<span class="note-text">肌张力障碍</span>
+								<input type="checkbox" id="motor-1-13" name="motor-1[]" value="motor-1-13">
+								<span class="note-text">双侧不对称强直姿势</span>
+								<input type="checkbox" id="motor-1-14" name="motor-1[]" value="motor-1-14">
+								<span class="note-text">不协调</span>
+								<input type="checkbox" id="motor-1-15" name="motor-1[]" value="motor-1-15">
+								<span class="note-text">杰克逊发作</span>
+								<input type="checkbox" id="motor-1-16" name="motor-1[]" value="motor-1-16">
+								<span class="note-text">瘫痪（轻瘫）</span>
+								<input type="checkbox" id="motor-1-17" name="motor-1[]" value="motor-1-17">
+								<span class="note-text">构音障碍</span>
+								<input type="checkbox" id="motor-1-18" name="motor-1[]" value="motor-1-18">
+								<span class="note-text">其他，请描述</span>
+								<input type="text" id="motor-1-other-text" name="motor-1-other-text" style="margin-right: 10px">
+								<span class="note-text">）</span>
+							</div>
+						</div>
+						<div class="condition">
+							<label for="no-motor" style="white-space: normal;">是否伴有非运动症状</label>
+							<i class="fas fa-question-circle" title="提示信息"></i>
+							<input type="radio" id="no-motor-0" name="no-motor" value="no-motor-0">
+							<span class="note-text">0=否</span>
+							<input type="radio" id="no-motor-1" name="no-motor" value="no-motor-1"> 
+							<span class="note-text">1=是</span>
+						</div>
+						<div class="condition" style="margin-top: 20px;align-items: flex-start;">
+							<label for="no-motor-1-1" style="visibility: hidden;"></label>
+							<i class="fas fa-question-circle" style="visibility: hidden;"></i>
+							<!-- <span class="note-text">-1</span> -->
+							<input type="checkbox" id="no-motor-1-1" name="no-motor-1[]" value="no-motor-1-1">
+							<span class="note-text">精神症状</span>
+							<div class="sub-checkbox">
+								<span class="note-text">（</span>
+								<input type="checkbox" id="no-motor-1-1-1" name="no-motor-1-1[]" value="no-motor-1-1-1">
+								<span class="note-text">错觉</span>
+								<input type="checkbox" id="no-motor-1-1-2" name="no-motor-1-1[]" value="no-motor-1-1-2">
+								<span class="note-text">幻觉</span>
+								<input type="checkbox" id="no-motor-1-1-3" name="no-motor-1-1[]" value="no-motor-1-1-3">
+								<span class="note-text">计算能力缺失</span>
+								<input type="checkbox" id="no-motor-1-1-4" name="no-motor-1-1[]" value="no-motor-1-1-4">
+								<span class="note-text">忽视</span>
+								<input type="checkbox" id="no-motor-1-1-5" name="no-motor-1-1[]" value="no-motor-1-1-5">
+								<span class="note-text">似曾相识或陌生感</span>
+								<input type="checkbox" id="no-motor-1-1-6" name="no-motor-1-1[]" value="no-motor-1-1-6">
+								<span class="note-text">强迫思维</span>
+								<input type="checkbox" id="no-motor-1-1-7" name="no-motor-1-1[]" value="no-motor-1-1-7">
+								<span class="note-text">人格分裂</span>
+								<input type="checkbox" id="no-motor-1-1-8" name="motor-1-1[]" value="motor-1-1-8">
+								<span class="note-text">其他</span>
+								<input type="text" id="no-motor-1-1-other-text" name="no-motor-1-1-other-text" style="margin-right: 10px">
+								<span class="note-text">）</span>
+							</div>
+						</div>
+						<div class="condition" style="margin-top: 20px;align-items: flex-start;">
+							<label for="no-motor-1-2" style="visibility: hidden;"></label>
+							<i class="fas fa-question-circle" style="visibility: hidden;"></i>
+							<!-- <span class="note-text">-2</span> -->
+							<input type="checkbox" id="no-motor-1-2" name="no-motor-1[]" value="no-motor-1-2">
+							<span class="note-text">情绪或情感障碍</span>
+							<div class="sub-checkbox">
+								<span class="note-text">（</span>
+								<input type="checkbox" id="no-motor-1-2-1" name="no-motor-1-2[]" value="no-motor-1-2-1">
+								<span class="note-text">激越</span>
+								<input type="checkbox" id="no-motor-1-2-2" name="no-motor-1-2[]" value="no-motor-1-2-2">
+								<span class="note-text">愤怒</span>
+								<input type="checkbox" id="no-motor-1-2-3" name="no-motor-1-2[]" value="no-motor-1-2-3">
+								<span class="note-text">恐惧</span>
+								<input type="checkbox" id="no-motor-1-2-4" name="no-motor-1-2[]" value="no-motor-1-2-4">
+								<span class="note-text">哭泣（流泪）</span>
+								<input type="checkbox" id="no-motor-1-2-5" name="no-motor-1-2[]" value="no-motor-1-2-5">
+								<span class="note-text">大笑（发笑）</span>
+								<input type="checkbox" id="no-motor-1-2-6" name="no-motor-1-2[]" value="no-motor-1-2-6">
+								<span class="note-text">焦虑</span>
+								<input type="checkbox" id="no-motor-1-2-7" name="no-motor-1-2[]" value="no-motor-1-2-7">
+								<span class="note-text">偏执</span>
+								<input type="checkbox" id="no-motor-1-2-7" name="no-motor-1-2[]" value="no-motor-1-2-7">
+								<span class="note-text">欣快</span>
+								<input type="checkbox" id="no-motor-1-2-8" name="motor-1-2[]" value="motor-1-2-8">
+								<span class="note-text">其他</span>
+								<input type="text" id="no-motor-1-2-other-text" name="no-motor-1-2-other-text" style="margin-right: 10px">
+								<span class="note-text">）</span>
+							</div>
+						</div>
+						<div class="condition" style="margin-top: 20px;align-items: flex-start;">
+							<label for="no-motor-1-3" style="visibility: hidden;"></label>
+							<i class="fas fa-question-circle" style="visibility: hidden;"></i>
+							<!-- <span class="note-text">-3</span> -->
+							<input type="checkbox" id="no-motor-1-3" name="no-motor-1[]" value="no-motor-1-3">
+							<span class="note-text">感觉症状</span>
+							<div class="sub-checkbox">
+								<span class="note-text">（</span>
+								<input type="checkbox" id="no-motor-1-3-1" name="no-motor-1-3[]" value="no-motor-1-3-1">
+								<span class="note-text">听觉</span>
+								<input type="checkbox" id="no-motor-1-3-2" name="no-motor-1-3[]" value="no-motor-1-3-2">
+								<span class="note-text">视觉</span>
+								<input type="checkbox" id="no-motor-1-3-3" name="no-motor-1-3[]" value="no-motor-1-3-3">
+								<span class="note-text">温度觉</span>
+								<input type="checkbox" id="no-motor-1-3-4" name="no-motor-1-3[]" value="no-motor-1-3-4">
+								<span class="note-text">触觉</span>
+								<input type="checkbox" id="no-motor-1-3-5" name="no-motor-1-3[]" value="no-motor-1-3-5">
+								<span class="note-text">味觉</span>
+								<input type="checkbox" id="no-motor-1-3-6" name="no-motor-1-3[]" value="no-motor-1-3-6">
+								<span class="note-text">嗅觉</span>
+								<input type="checkbox" id="no-motor-1-3-7" name="no-motor-1-3[]" value="no-motor-1-3-7">
+								<span class="note-text">位置觉</span>
+								<input type="checkbox" id="no-motor-1-3-8" name="no-motor-1-3[]" value="no-motor-1-3-8">
+								<span class="note-text">前庭觉，如头晕、站立不稳</span>
+								<input type="checkbox" id="no-motor-1-3-9" name="motor-1-3[]" value="motor-1-3-9">
+								<span class="note-text">其他</span>
+								<input type="text" id="no-motor-1-3-other-text" name="no-motor-1-3-other-text" style="margin-right: 10px">
+								<span class="note-text">）</span>
+							</div>
+						</div>
+						<div class="condition" style="margin-top: 20px;align-items: flex-start;">
+							<label for="no-motor-1-4" style="visibility: hidden;"></label>
+							<i class="fas fa-question-circle" style="visibility: hidden;"></i>
+							<!-- <span class="note-text">-4</span> -->
+							<input type="checkbox" id="no-motor-1-4" name="no-motor-1[]" value="no-motor-1-4">
+							<span class="note-text">自动症</span>
+							<div class="sub-checkbox">
+								<span class="note-text">（</span>
+								<input type="checkbox" id="no-motor-1-4-1" name="no-motor-1-4[]" value="no-motor-1-4-1">
+								<span class="note-text">点头</span>
+								<input type="checkbox" id="no-motor-1-4-2" name="no-motor-1-4[]" value="no-motor-1-4-2">
+								<span class="note-text">手动</span>
+								<input type="checkbox" id="no-motor-1-4-3" name="no-motor-1-4[]" value="no-motor-1-4-3">
+								<span class="note-text">眨眼</span>
+								<input type="checkbox" id="no-motor-1-4-4" name="no-motor-1-4[]" value="no-motor-1-4-4">
+								<span class="note-text">口面部不自主运动（咂嘴、秽语、挤眉弄眼 ）</span>
+								<input type="checkbox" id="no-motor-1-4-5" name="no-motor-1-4[]" value="no-motor-1-4-5">
+								<span class="note-text">脱衣</span>
+								<input type="checkbox" id="no-motor-1-4-6" name="no-motor-1-4[]" value="no-motor-1-4-6">
+								<span class="note-text">蹬踏</span>
+								<input type="checkbox" id="no-motor-1-4-7" name="no-motor-1-4[]" value="no-motor-1-4-7">
+								<span class="note-text">行走或奔跑</span>
+								<input type="checkbox" id="no-motor-1-4-8" name="no-motor-1-4[]" value="no-motor-1-4-8">
+								<span class="note-text">攻击行为</span>
+								<input type="checkbox" id="no-motor-1-4-9" name="no-motor-1-4[]" value="no-motor-1-4-9">
+								<span class="note-text">性行为</span>
+								<input type="checkbox" id="no-motor-1-4-10" name="motor-1-4[]" value="motor-1-4-10">
+								<span class="note-text">其他</span>
+								<input type="text" id="no-motor-1-4-other-text" name="no-motor-1-4-other-text" style="margin-right: 10px">
+								<span class="note-text">）</span>
+							</div>
+						</div>
+						<div class="condition" style="margin-top: 20px;align-items: flex-start;">
+							<label for="no-motor-1-5" style="visibility: hidden;"></label>
+							<i class="fas fa-question-circle" style="visibility: hidden;"></i>
+							<!-- <span class="note-text">-5</span> -->
+							<input type="checkbox" id="no-motor-1-5" name="no-motor-1[]" value="no-motor-1-5">
+							<span class="note-text">自主神经症状</span>
+							<div class="sub-checkbox">
+								<span class="note-text">（</span>
+								<input type="checkbox" id="no-motor-1-5-1" name="no-motor-1-5[]" value="no-motor-1-5-1">
+								<span class="note-text">胃气上涌</span>
+								<input type="checkbox" id="no-motor-1-5-2" name="no-motor-1-5[]" value="no-motor-1-5-2">
+								<span class="note-text">过度通气或通气不足</span>
+								<input type="checkbox" id="no-motor-1-5-3" name="no-motor-1-5[]" value="no-motor-1-5-3">
+								<span class="note-text">心动过速或过缓</span>
+								<input type="checkbox" id="no-motor-1-5-4" name="no-motor-1-5[]" value="no-motor-1-5-4">
+								<span class="note-text">心脏停搏动</span>
+								<input type="checkbox" id="no-motor-1-5-5" name="no-motor-1-5[]" value="no-motor-1-5-5">
+								<span class="note-text">面色潮红或苍白</span>
+								<input type="checkbox" id="no-motor-1-5-6" name="no-motor-1-5[]" value="no-motor-1-5-6">
+								<span class="note-text">竖毛</span>
+								<input type="checkbox" id="no-motor-1-5-7" name="no-motor-1-5[]" value="no-motor-1-5-7">
+								<span class="note-text">勃起</span>
+								<input type="checkbox" id="no-motor-1-5-8" name="no-motor-1-5[]" value="no-motor-1-5-8">
+								<span class="note-text">其他</span>
+								<input type="text" id="no-motor-1-5-other-text" name="no-motor-1-5-other-text" style="margin-right: 10px">
+								<span class="note-text">）</span>
+							</div>
+						</div>
+						<div class="condition">
+							<label for="site">症状出现部位</label>
+							<i class="fas fa-question-circle" title="提示信息"></i>
+							<input type="checkbox" id="site-1" name="site[]" value="site-1">
+							<span class="note-text">1=左侧（上/下肢）</span>
+							<input type="checkbox" id="site-2" name="site[]" value="site-2"> 
+							<span class="note-text">2=右侧（上/下肢）</span>
+							<input type="checkbox" id="site-3" name="site[]" value="site-3">
+							<span class="note-text">3=躯干</span>
+							<input type="checkbox" id="site-4" name="site[]" value="site-4">
+							<span class="note-text">4=头部</span>
+							<input type="checkbox" id="site-5" name="site[]" value="site-5">
+							<span class="note-text">5=全身</span>
+						</div>
+						<div class="condition">
+							<label for="status" style="white-space: normal;">发作后是否有以下状态</label>
+							<i class="fas fa-question-circle" title="提示信息"></i>
+							<input type="checkbox" id="status-1" name="status[]" value="status-1">
+							<span class="note-text">记忆力下降或注意力不集中（具体描述</span>
+							<input type="text" id="status-1-text" name="status-1-text" style="margin-right: 10px">
+							<span class="note-text">）</span>
+						</div>
+						<div class="condition" style="margin-top: 10px;">
+							<label for="status-2" style="visibility: hidden;"></label>
+							<i class="fas fa-question-circle" style="visibility: hidden;"></i>
+							<input type="checkbox" id="status-2" name="status[]" value="status-2">
+							<span class="note-text">嗜睡或睡眠障碍（具体描述</span>
+							<input type="text" id="status-2-text" name="status-2-text" style="margin-right: 10px">
+							<span class="note-text">）</span>
+						</div>
+						<div class="condition" style="margin-top: 10px;">
+							<label for="status-3" style="visibility: hidden;"></label>
+							<i class="fas fa-question-circle" style="visibility: hidden;"></i>
+							<input type="checkbox" id="status-3" name="status[]" value="status-3">
+							<span class="note-text">头痛（具体描述</span>
+							<input type="text" id="status-3-text" name="status-3-text" style="margin-right: 10px">
+							<span class="note-text">）</span>
+						</div>
+						<div class="condition" style="margin-top: 10px;">
+							<label for="status-4" style="visibility: hidden;"></label>
+							<i class="fas fa-question-circle" style="visibility: hidden;"></i>
+							<input type="checkbox" id="status-4" name="status[]" value="status-4">
+							<span class="note-text">语言障碍/构音障碍（具体描述</span>
+							<input type="text" id="status-4-text" name="status-4-text" style="margin-right: 10px">
+							<span class="note-text">）</span>
+						</div>
+						<div class="condition" style="margin-top: 10px;">
+							<label for="status-5" style="visibility: hidden;"></label>
+							<i class="fas fa-question-circle" style="visibility: hidden;"></i>
+							<input type="checkbox" id="status-5" name="status[]" value="status-5">
+							<span class="note-text">肢体运动障碍（具体描述</span>
+							<input type="text" id="status-5-text" name="status-5-text" style="margin-right: 10px">
+							<span class="note-text">）</span>
+						</div>
+						<div class="condition" style="margin-top: 10px;">
+							<label for="status-6" style="visibility: hidden;"></label>
+							<i class="fas fa-question-circle" style="visibility: hidden;"></i>
+							<input type="checkbox" id="status-6" name="status[]" value="status-6">
+							<span class="note-text">肌肉酸痛（具体描述</span>
+							<input type="text" id="status-6-text" name="status-6-text" style="margin-right: 10px">
+							<span class="note-text">）</span>
+						</div>
+						<div class="condition" style="margin-top: 10px;">
+							<label for="status-7" style="visibility: hidden;"></label>
+							<i class="fas fa-question-circle" style="visibility: hidden;"></i>
+							<input type="checkbox" id="status-7" name="status[]" value="status-7">
+							<span class="note-text">情绪/性格改变（具体描述</span>
+							<input type="text" id="status-7-text" name="status-7-text" style="margin-right: 10px">
+							<span class="note-text">）</span>
+						</div>
+						<div class="condition" style="margin-top: 10px;">
+							<label for="status-8" style="visibility: hidden;"></label>
+							<i class="fas fa-question-circle" style="visibility: hidden;"></i>
+							<input type="checkbox" id="status-8" name="status[]" value="status-8">
+							<span class="note-text">胃肠道症状（具体描述</span>
+							<input type="text" id="status-8-text" name="status-8-text" style="margin-right: 10px">
+							<span class="note-text">）</span>
+						</div>
+						<div class="condition" style="margin-top: 10px;">
+							<label for="status-9" style="visibility: hidden;"></label>
+							<i class="fas fa-question-circle" style="visibility: hidden;"></i>
+							<input type="checkbox" id="status-9" name="status[]" value="status-9">
+							<span class="note-text">发作后游走（具体描述</span>
+							<input type="text" id="status-9-text" name="status-9-text" style="margin-right: 10px">
+							<span class="note-text">）</span>
+						</div>
+						<div class="condition" style="margin-top: 10px;">
+							<label for="status-10" style="visibility: hidden;"></label>
+							<i class="fas fa-question-circle" style="visibility: hidden;"></i>
+							<input type="checkbox" id="status-10" name="status[]" value="status-10">
+							<span class="note-text">其他（具体描述</span>
+							<input type="text" id="status-other-text" name="status-other-text" style="margin-right: 10px">
+							<span class="note-text">）</span>
+						</div>
+						<div class="condition">
+							<label for="lastTime" style="white-space: normal;">该类型最近一次发作时间</label>
+							<i class="fas fa-question-circle" title="提示信息"></i>
+							<input type="text" id="lastTime" name="lastTime" placeholder="选择日期和时间">
+						</div>
+						<div class="condition">
+							<label for="frequency" style="white-space: normal;">该类型目前发作频率</label>
+							<i class="fas fa-question-circle" title="提示信息"></i>
+							<input type="text" id="frequencyNum" style="width: 30px;margin-right: 10px;">
+							<span class="note-text">次/</span>
+							<input type="radio" id="frequency-year" name="frequency" value="frequency-year">
+							<span class="note-text">年/</span>
+							<input type="radio" id="frequency-month" name="frequency" value="frequency-month">
+							<span class="note-text">月/</span>
+							<input type="radio" id="frequency-day" name="frequency" value="frequency-day">
+							<span class="note-text">日</span>
+						</div>	
+					</div>
+		
+		            <div class="buttons">
+		                <button type="button" id="submit-button">提交</button>
+		                <button type="button" id="complete-button">完成</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		
+		<script>
+		    flatpickr("#dateRange", {
+		        mode: "range", // 启用日期范围模式
+		        dateFormat: "Y-m-d", 
+				locale: "zh",
+		    });
+		    flatpickr("#startTime", {
+		        enableTime: true,
+		        dateFormat: "Y-m-d H:i", 
+		        time_24hr: true ,
+				locale: "zh",
+		    });
+			flatpickr("#birth-date", {
+			    enableTime: true,
+			    dateFormat: "Y-m-d H:i", 
+			    time_24hr: true ,
+				locale: "zh",
+			});
+			flatpickr("#lastTime", {
+			    enableTime: true,
+			    dateFormat: "Y-m-d H:i", 
+			    time_24hr: true ,
+				locale: "zh",
+			});
+		</script>
+		
+		<script>
+			function goBack() {
+				window.location.href = 'index.html';  // 替换为实际的页面地址
+			}
+		</script>
+		
+		<!-- FontAwesome Icons CDN -->
+		<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+		<script>
+		    let rowNumber = 1;
+		    
+		    document.addEventListener('DOMContentLoaded', function() {
+				
+		        // 绑定新建按钮点击事件
+		        document.getElementById('new-button').addEventListener('click', function() {
+		            // 清空表单字段
+		            clearFormFields();
+		    
+		            // 显示添加页面并隐藏主页面
+		            document.getElementById('show-page').classList.add('hidden');
+		            document.getElementById('add-page').classList.remove('hidden');
+		    
+		            // 重置行号为下一个可用行号
+		            rowNumber = getNextAvailableRowNumber();
+		        });
+		    
+		        // 绑定完成按钮点击事件
+		        document.getElementById('complete-button').addEventListener('click', function() {
+		            // 显示主页面并隐藏添加页面
+		            document.getElementById('show-page').classList.remove('hidden');
+		            document.getElementById('add-page').classList.add('hidden');
+		        });
+				// 绑定患者列表按钮点击事件
+				document.getElementById('patient-list-button').addEventListener('click', function() {
+				    // 显示主页面并隐藏添加页面
+				    document.getElementById('show-page').classList.remove('hidden');
+				    document.getElementById('add-page').classList.add('hidden');
+				});
+		    
+		        // 绑定表单提交按钮点击事件
+		        document.getElementById('submit-button').addEventListener('click', function() {
+		            // Extracting individual elements from basicData
+		            const appointmentDate = document.getElementById('appointmentDate').value;
+		            const registerNumber = document.getElementById('registerNumber').value;
+		            const name = document.getElementById('name').value;
+					const otherEthnicityText = document.getElementById('other-ethnicity-text').value;
+					const IDNumber = document.getElementById('ID-number').value;
+		            const birthDate = document.getElementById('birth-date').value;
+		            const age = document.getElementById('age').value;
+		            const phoneNumber = document.getElementById('phone-number').value;
+					
+					const medicalHistory = document.getElementById('medical-history').value;
+					
+					const startTime = document.getElementById('startTime').value;
+					const foreboding_1_OtherText = document.getElementById('foreboding-1-other-text').value;
+					const consciousness_1_OtherText = document.getElementById('consciousness-1-other-text').value;
+					const motor_1_OtherText = document.getElementById('motor-1-other-text').value;
+					const noMotor_1_1_OtherText = document.getElementById('no-motor-1-1-other-text').value;
+					const noMotor_1_2_OtherText = document.getElementById('no-motor-1-2-other-text').value;
+					const noMotor_1_3_OtherText = document.getElementById('no-motor-1-3-other-text').value;
+					const noMotor_1_4_OtherText = document.getElementById('no-motor-1-4-other-text').value;
+					const noMotor_1_5_OtherText = document.getElementById('no-motor-1-5-other-text').value;
+					const status_1_Text = document.getElementById('status-1-text').value;
+					const status_2_Text = document.getElementById('status-2-text').value;
+					const status_3_Text = document.getElementById('status-3-text').value;
+					const status_4_Text = document.getElementById('status-4-text').value;
+					const status_5_Text = document.getElementById('status-5-text').value;
+					const status_6_Text = document.getElementById('status-6-text').value;
+					const status_7_Text = document.getElementById('status-7-text').value;
+					const status_8_Text = document.getElementById('status-8-text').value;
+					const status_9_Text = document.getElementById('status-9-text').value;
+					const statusOtherText = document.getElementById('status-other-text').value;
+					const lastTime = document.getElementById('lastTime').value;
+					const frequencyNum = document.getElementById('frequencyNum').value;
+					
+					
+		            const ethnicitys = getCheckedRadio('input[name="ethnicity"]');
+		            const genders = getCheckedRadio('input[name="gender"]');
+		            const hands = getCheckedRadio('input[name="hand"]');
+		            const states = getCheckedCheckboxes('input[name="state[]"]');
+		            const forebodings = getCheckedRadio('input[name="foreboding"]');
+		            const forebodings_1 = getCheckedCheckboxes('input[name="foreboding-1[]"]');
+		            const consciousnesses = getCheckedRadio('input[name="consciousness"]');
+		            const consciousnesses_1 = getCheckedCheckboxes('input[name="consciousness-1[]"]');
+		            const consciousnesses_2 = getCheckedCheckboxes('input[name="consciousness-2[]"]');
+		            const motors = getCheckedRadio('input[name="motor"]');
+		            const motors_1 = getCheckedCheckboxes('input[name="motor-1[]"]');
+		            const noMotors = getCheckedRadio('input[name="no-motor"]');
+		            const noMotors_1 = getCheckedCheckboxes('input[name="no-motor-1[]"]');
+		            const noMotors_1_1 = getCheckedCheckboxes('input[name="no-motor-1-1[]"]');
+		            const noMotors_1_2 = getCheckedCheckboxes('input[name="no-motor-1-2[]"]');
+		            const noMotors_1_3 = getCheckedCheckboxes('input[name="no-motor-1-3[]"]');
+		            const noMotors_1_4 = getCheckedCheckboxes('input[name="no-motor-1-4[]"]');
+		            const noMotors_1_5 = getCheckedCheckboxes('input[name="no-motor-1-5[]"]');
+		            const sites = getCheckedCheckboxes('input[name="site[]"]');
+		            const statuses = getCheckedCheckboxes('input[name="status[]"]');
+		            const frequencys = getCheckedRadio('input[name="frequency"]');
+		
+		    
+		            // 检查是否有当前行号的患者信息，如果有则更新，否则新建
+		            if (sessionStorage.getItem(`patient-${rowNumber}-name`)) {
+		                // 更新现有患者信息
+		                updatePatientInformation(rowNumber, appointmentDate, registerNumber, name, medicalHistory, 
+											otherEthnicityText, IDNumber, birthDate, age, phoneNumber, startTime, 
+											foreboding_1_OtherText, consciousness_1_OtherText, motor_1_OtherText, 
+											noMotor_1_1_OtherText, noMotor_1_2_OtherText, noMotor_1_3_OtherText, 
+											noMotor_1_4_OtherText, noMotor_1_5_OtherText, status_1_Text, 
+											status_2_Text, status_3_Text, status_4_Text, status_5_Text, 
+											status_6_Text, status_7_Text, status_8_Text, status_9_Text, 
+											statusOtherText, lastTime, frequencyNum, 
+											ethnicitys, genders, hands, states, forebodings, forebodings_1, 
+											consciousnesses, consciousnesses_1, consciousnesses_2, motors,
+											motors_1, noMotors, noMotors_1, noMotors_1_1, noMotors_1_2, 
+											noMotors_1_3, noMotors_1_4, noMotors_1_5, sites, statuses, frequencys);
+		            } else {
+						if(name){
+							// 新建患者信息
+							updatePatientInformation(rowNumber, appointmentDate, registerNumber, name, medicalHistory,
+												otherEthnicityText, IDNumber, birthDate, age, phoneNumber, startTime, 
+												foreboding_1_OtherText, consciousness_1_OtherText, motor_1_OtherText, 
+												noMotor_1_1_OtherText, noMotor_1_2_OtherText, noMotor_1_3_OtherText, 
+												noMotor_1_4_OtherText, noMotor_1_5_OtherText, status_1_Text, 
+												status_2_Text, status_3_Text, status_4_Text, status_5_Text, 
+												status_6_Text, status_7_Text, status_8_Text, status_9_Text, 
+												statusOtherText, lastTime, frequencyNum, 
+												ethnicitys, genders, hands, states, forebodings, forebodings_1, 
+												consciousnesses, consciousnesses_1, consciousnesses_2, motors,
+												motors_1, noMotors, noMotors_1, noMotors_1_1, noMotors_1_2, 
+												noMotors_1_3, noMotors_1_4, noMotors_1_5, sites, statuses, frequencys);
+				
+							// 创建新行并添加到表格中
+							addNewRowToTable(rowNumber, name);
+				
+							// 增加行号
+							rowNumber++;
+						}              
+		            }
+		    
+		            // 清空表单字段
+		            clearFormFields();
+		    
+		            // 显示主页面并隐藏添加页面
+		            document.getElementById('show-page').classList.remove('hidden');
+		            document.getElementById('add-page').classList.add('hidden');
+		        });
+		    
+		        // 初始绑定事件处理程序
+		        bindEventHandlers();
+		    });
+			
+			// 获取复选框选中状态的函数
+			function getCheckedCheckboxes(selector) {
+			    const checkboxes = document.querySelectorAll(selector);
+			    const checkedValues = [];
+			    
+			    checkboxes.forEach(checkbox => {
+			        checkedValues.push({
+			            value: checkbox.value,
+			            checked: checkbox.checked
+			        });
+			    });
+			    
+			    return checkedValues;
+			}
+			
+			function getCheckedRadio(selector) {
+			    const radioButtons = document.querySelectorAll(selector);
+			    let checkedValue = null;
+			
+			    radioButtons.forEach(radioButton => {
+			        if (radioButton.checked) {
+			            checkedValue = radioButton.value;
+			        }
+			    });
+			
+			    return checkedValue;
+			}
+			
+			// 更新患者信息
+			function updatePatientInformation(rowNumber, appointmentDate, registerNumber, name, medicalHistory, 
+											otherEthnicityText, IDNumber, birthDate, age, phoneNumber, startTime, 
+											foreboding_1_OtherText, consciousness_1_OtherText, motor_1_OtherText, 
+											noMotor_1_1_OtherText, noMotor_1_2_OtherText, noMotor_1_3_OtherText, 
+											noMotor_1_4_OtherText, noMotor_1_5_OtherText, status_1_Text, 
+											status_2_Text, status_3_Text, status_4_Text, status_5_Text, 
+											status_6_Text, status_7_Text, status_8_Text, status_9_Text, 
+											statusOtherText, lastTime, frequencyNum, 
+											ethnicitys, genders, hands, states, forebodings, forebodings_1, 
+											consciousnesses, consciousnesses_1, consciousnesses_2, motors,
+											motors_1, noMotors, noMotors_1, noMotors_1_1, noMotors_1_2, 
+											noMotors_1_3, noMotors_1_4, noMotors_1_5, sites, statuses, frequencys) 
+			{
+				const dataToStore = [
+				    { key: 'appointmentDate', value: appointmentDate },
+				    { key: 'registerNumber', value: registerNumber },
+				    { key: 'name', value: name },
+				    { key: 'medical-history', value: medicalHistory },
+				    { key: 'other-ethnicity-text', value: otherEthnicityText },
+				    { key: 'ID-number', value: IDNumber },
+				    { key: 'birth-date', value: birthDate },
+				    { key: 'age', value: age },
+				    { key: 'phone-number', value: phoneNumber },
+				    { key: 'startTime', value: startTime },
+				    { key: 'foreboding-1-other-text', value: foreboding_1_OtherText },
+				    { key: 'consciousness-1-other-text', value: consciousness_1_OtherText },
+				    { key: 'motor-1-other-text', value: motor_1_OtherText },
+				    { key: 'no-motor-1-1-other-text', value: noMotor_1_1_OtherText },
+				    { key: 'no-motor-1-2-other-text', value: noMotor_1_2_OtherText },
+				    { key: 'no-motor-1-3-other-text', value: noMotor_1_3_OtherText },
+				    { key: 'no-motor-1-4-other-text', value: noMotor_1_4_OtherText },
+				    { key: 'no-motor-1-5-other-text', value: noMotor_1_5_OtherText },
+				    { key: 'status-1-text', value: status_1_Text },
+				    { key: 'status-2-text', value: status_2_Text },
+				    { key: 'status-3-text', value: status_3_Text },
+				    { key: 'status-4-text', value: status_4_Text },
+				    { key: 'status-5-text', value: status_5_Text },
+				    { key: 'status-6-text', value: status_6_Text },
+				    { key: 'status-7-text', value: status_7_Text },
+				    { key: 'status-8-text', value: status_8_Text },
+				    { key: 'status-9-text', value: status_9_Text },
+				    { key: 'status-other-text', value: statusOtherText },
+				    { key: 'lastTime', value: lastTime },
+				    { key: 'frequencyNum', value: frequencyNum }
+				];
+				
+				dataToStore.forEach(item => {
+				    sessionStorage.setItem(`patient-${rowNumber}-${item.key}`, item.value);
+				});
+		
+				
+				const checkboxToStore = [			    
+				    { key: 'state', value: states },			    
+				    { key: 'foreboding-1', value: forebodings_1 },			    
+				    { key: 'consciousness-1', value: consciousnesses_1 },
+				    { key: 'consciousness-2', value: consciousnesses_2 },			    
+				    { key: 'motor-1', value: motors_1 },
+				    { key: 'no-motor-1', value: noMotors_1 },
+				    { key: 'no-motor-1-1', value: noMotors_1_1 },
+				    { key: 'no-motor-1-2', value: noMotors_1_2 },
+				    { key: 'no-motor-1-3', value: noMotors_1_3 },
+				    { key: 'no-motor-1-4', value: noMotors_1_4 },
+				    { key: 'no-motor-1-5', value: noMotors_1_5 },
+				    { key: 'site', value: sites },
+				    { key: 'status', value: statuses },			    
+				];
+				
+				checkboxToStore.forEach(item => {
+				    sessionStorage.setItem(`patient-${rowNumber}-${item.key}`, JSON.stringify(item.value));
+				});
+				
+				const radioToStore = [
+				        { key: 'ethnicity', value: ethnicitys },
+				        { key: 'gender', value: genders },
+				        { key: 'hand', value: hands },
+						{ key: 'foreboding', value: forebodings },
+						{ key: 'consciousness', value: consciousnesses },
+						{ key: 'motor', value: motors },
+						{ key: 'no-motor', value: noMotors },
+						{ key: 'frequency', value: frequencys }
+				    ];
+				
+				radioToStore.forEach(item => {
+					sessionStorage.setItem(`patient-${rowNumber}-${item.key}`, item.value);
+				});
+		
+			}
+			
+		    // 查看链接事件处理程序
+		    function bindEventHandlers() {
+		        const viewLinks = document.querySelectorAll('.view-link');
+		        viewLinks.forEach(link => {
+		            link.addEventListener('click', function(e) {
+		                e.preventDefault();
+		                const patientRow = this.closest('tr');
+		                const columns = patientRow.querySelectorAll('td');
+		                const rowIndex = parseInt(columns[0].innerText.trim()); // 获取行号
+		    
+		                // 从 sessionStorage 获取选定患者的信息
+						const dataToShow = [
+						    { key: 'appointmentDate' },
+						    { key: 'registerNumber' },
+						    { key: 'name' },
+						    { key: 'medical-history' },
+						    { key: 'other-ethnicity-text' },
+						    { key: 'ID-number' },
+						    { key: 'birth-date' },
+						    { key: 'age' },
+						    { key: 'phone-number' },
+						    { key: 'startTime' },
+						    { key: 'foreboding-1-other-text' },
+						    { key: 'consciousness-1-other-text' },
+						    { key: 'motor-1-other-text' },
+						    { key: 'no-motor-1-1-other-text' },
+						    { key: 'no-motor-1-2-other-text' },
+						    { key: 'no-motor-1-3-other-text' },
+						    { key: 'no-motor-1-4-other-text' },
+						    { key: 'no-motor-1-5-other-text' },
+						    { key: 'status-1-text' },
+						    { key: 'status-2-text' },
+						    { key: 'status-3-text' },
+						    { key: 'status-4-text' },
+						    { key: 'status-5-text' },
+						    { key: 'status-6-text' },
+						    { key: 'status-7-text' },
+						    { key: 'status-8-text' },
+						    { key: 'status-9-text' },
+						    { key: 'status-other-text' },
+						    { key: 'lastTime' },
+						    { key: 'frequencyNum' }
+						];
+						
+						const checkboxToShow = [
+							'state',  'foreboding-1',
+							'consciousness-1', 'consciousness-2',
+							 'motor-1','no-motor-1', 'no-motor-1-1', 'no-motor-1-2',
+							'no-motor-1-3', 'no-motor-1-4', 'no-motor-1-5',
+							'site', 'status'
+						];
+									
+						const radioToShow = [
+							'ethnicity', 'gender', 'hand', 'foreboding', 
+							'consciousness', 
+							'motor','no-motor','frequency'
+						];
+						
+						dataToShow.forEach(item => {
+						    document.getElementById(`${item.key}`).value = sessionStorage.getItem(`patient-${rowIndex}-${item.key}`);
+						});
+										
+						checkboxToShow.forEach(checkboxName => {
+							fillCheckbox(rowIndex, checkboxName);
+						});
+						
+						radioToShow.forEach(radioName => {
+						    fillRadio(rowIndex, radioName);
+						});
+						
+		                // 显示添加页面并隐藏主页面
+		                document.getElementById('show-page').classList.add('hidden');
+		                document.getElementById('add-page').classList.remove('hidden');
+		    
+		                // 设置当前行号，用于更新操作
+		                rowNumber = rowIndex;
+		            });
+		        });
+		    }
+			
+		    function fillCheckbox(rowIndex, checkboxName) {
+		        const storageKey = `patient-${rowIndex}-${checkboxName}`;
+		        const storedData = sessionStorage.getItem(storageKey);
+		    
+		        if (storedData) {
+		            try {
+		                const checkboxState = JSON.parse(storedData);
+		    
+		                checkboxState.forEach((state, index) => {
+		                    const checkboxId = `${checkboxName}-${index + 1}`;
+		                    const checkboxElement = document.getElementById(checkboxId);
+		    
+		                    if (checkboxElement) {
+		                        checkboxElement.checked = state.checked;
+		                    } else {
+		                        console.log(`复选框 ${checkboxId} 未找到，无法恢复状态。`);
+		                    }
+		                });
+		    
+		            } catch (error) {
+		                console.error(`解析复选框 ${checkboxName} 状态时出错:`, error);
+		            }
+		        } else {
+		            console.warn(`未找到存储的数据 ${storageKey}。正在设置默认状态。`);
+		            
+		            // 获取所有与名称匹配的复选框并设置为未选中
+		            const checkboxes = document.querySelectorAll(`input[type="checkbox"][name="${checkboxName}"]`);
+		            const defaultCheckboxState = Array.from(checkboxes).map(checkbox => ({ checked: false }));
+		    
+		            defaultCheckboxState.forEach((state, index) => {
+		                const checkboxId = `${checkboxName}-${index + 1}`;
+		                const checkboxElement = document.getElementById(checkboxId);
+		    
+		                if (checkboxElement) {
+		                    checkboxElement.checked = state.checked;
+		                } else {
+		                    console.log(`复选框 ${checkboxId} 未找到，无法设置默认状态。`);
+		                }
+		            });
+		        }
+		    }
+		
+			
+			function fillRadio(rowIndex, radioName) {
+			    const storageKey = `patient-${rowIndex}-${radioName}`;
+			    const storedValue = sessionStorage.getItem(storageKey);
+			
+			    if (storedValue !== null) {
+			        // 如果存储中有值，则根据存储的值选中对应的单选框
+			        const radioElement = document.getElementById(storedValue);
+			        if (radioElement) {
+			            radioElement.checked = true;
+			        } else {
+			            console.warn(`无法找到 id 为 ${storedValue} 的单选框元素。`);
+			        }
+			    } else {
+			        console.warn(`未找到存储的数据 ${storageKey}。`);
+			        // 可以选择默认行为，例如默认选中第一个单选框
+			        // const firstRadioElement = document.querySelector(`input[type="radio"][name="${radioName}"]:first-of-type`);
+			        // if (firstRadioElement) {
+			        //     firstRadioElement.checked = true;
+			        // }
+			    }
+			}
+		
+		    // 添加新行到表格中
+		    function addNewRowToTable(rowNumber, name) {
+		        const newRow = document.createElement('tr');
+		        newRow.innerHTML = `
+		            <td>${rowNumber}</td>
+		            <td>${name}</td>
+		            <td> </td>
+		            <td>导入</td>
+		            <td>${new Date().toLocaleString()}</td>
+		            <td>
+		                <a href="#" class="view-link">查看</a>
+		            </td>
+		        `;
+		        document.getElementById('patient-table').appendChild(newRow);
+		    
+		        // 重新绑定查看链接的事件处理程序
+		        bindEventHandlers();
+		    }
+		    
+		    // 获取下一个可用行号
+		    function getNextAvailableRowNumber() {
+		        let maxRowNumber = 0;
+		        for (let i = 0; i < sessionStorage.length; i++) {
+		            const key = sessionStorage.key(i);
+		            if (key.startsWith('patient-')) {
+		                const rowNumber = parseInt(key.split('-')[1]);
+		                if (rowNumber > maxRowNumber) {
+		                    maxRowNumber = rowNumber;
+		                }
+		            }
+		        }
+		        return maxRowNumber + 1;
+		    }
+		    
+		    // 清空表单字段
+		    function clearFormFields() {
+		        document.getElementById('appointmentDate').value = '';
+		        document.getElementById('registerNumber').value = '';
+		        document.getElementById('name').value = '';
+		        document.getElementById('other-ethnicity-text').value = '';
+		        document.getElementById('ID-number').value = '';
+		        document.getElementById('birth-date').value = '';
+		        document.getElementById('age').value = '';
+		        document.getElementById('phone-number').value = '';
+		        
+		        document.getElementById('medical-history').value = '';
+		        
+		        document.getElementById('startTime').value = '';
+		        document.getElementById('foreboding-1-other-text').value = '';
+		        document.getElementById('consciousness-1-other-text').value = '';
+		        document.getElementById('motor-1-other-text').value = '';
+		        document.getElementById('no-motor-1-1-other-text').value = '';
+		        document.getElementById('no-motor-1-2-other-text').value = '';
+		        document.getElementById('no-motor-1-3-other-text').value = '';
+		        document.getElementById('no-motor-1-4-other-text').value = '';
+		        document.getElementById('no-motor-1-5-other-text').value = '';
+		        document.getElementById('status-1-text').value = '';
+		        document.getElementById('status-2-text').value = '';
+		        document.getElementById('status-3-text').value = '';
+		        document.getElementById('status-4-text').value = '';
+		        document.getElementById('status-5-text').value = '';
+		        document.getElementById('status-6-text').value = '';
+		        document.getElementById('status-7-text').value = '';
+		        document.getElementById('status-8-text').value = '';
+		        document.getElementById('status-9-text').value = '';
+		        document.getElementById('status-other-text').value = '';
+		        document.getElementById('lastTime').value = '';
+		        document.getElementById('frequencyNum').value = '';
+		        
+		        clearRadios('ethnicity');
+		        clearRadios('gender');
+		        clearRadios('hand');            
+		        clearCheckboxes('state[]');
+		        clearRadios('foreboding');
+		        clearCheckboxes('foreboding-1[]');
+		        clearRadios('consciousness');
+		        clearCheckboxes('consciousness-1[]');
+		        clearCheckboxes('consciousness-2[]');
+		        clearRadios('motor');
+		        clearCheckboxes('motor-1[]');
+		        clearRadios('no-motor');
+		        clearCheckboxes('no-motor-1[]');
+		        clearCheckboxes('no-motor-1-1[]');
+		        clearCheckboxes('no-motor-1-2[]');
+		        clearCheckboxes('no-motor-1-3[]');
+		        clearCheckboxes('no-motor-1-4[]');
+		        clearCheckboxes('no-motor-1-5[]');
+		        clearCheckboxes('site[]');
+		        clearCheckboxes('status[]');
+		        clearRadios('frequency');
+		    }
+			
+			function clearCheckboxes(name) {
+				const checkboxes = document.querySelectorAll('input[name="' + name + '"]');
+				checkboxes.forEach((checkbox) => {
+					checkbox.checked = false;
+				});
+			}
+			
+			function clearRadios(name) {
+			    const radios = document.querySelectorAll('input[type="radio"][name="' + name + '"]');
+			    radios.forEach((radio) => {
+			        radio.checked = false;
+			    });
+			}
+		
+		</script>
+	</body>
+</html>

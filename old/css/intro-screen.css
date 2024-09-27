@@ -1,0 +1,102 @@
+		@media (max-width: 768px) {
+		    table {
+		        font-size: 14px;
+		    }
+		}
+		.intro-screen {
+			text-align: center;			
+			background-color: #fff;
+			border-radius: 8px;
+			padding: 40px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			width: 94%;
+			height: 88vh;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			overflow: hidden; /* 确保溢出的内容不会显示 */
+/* 			margin: 10px 10px 10px 10px; */
+		}
+
+		.intro-screen::before {
+		    content: '';
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+			background-image: linear-gradient(25deg,#0246a7,#164de5,#1e89ef,#5cdffb);
+		    clip-path: ellipse(70% 50% at 50% 18%);
+		    z-index: 0; /* 确保半圆在所有内容之后 */
+		}
+		
+		.intro-content {
+			position: relative;
+		    background-color: white;
+		    padding: 50px;
+		    border-radius: 12px;
+			transform: translateY(-20px);
+		}
+
+		.intro-content h1 {
+			font-size: 40px;
+			margin-bottom: 20px;
+			color: black; /* 标题颜色 */
+		}
+
+		.intro-content button {
+			color: #fff; /* 按钮文字颜色 */
+			border: none;
+			border-radius: 30px;
+			padding: 10px 20px;
+			font-size: 20px;
+			cursor: pointer;
+			margin: 30px;
+			transition: background-color 0.3s;
+			transition: transform 0.1s ease; /* 添加过渡效果 */
+		}
+		.intro-content button:active {
+		    transform: scale(0.9); /* 缩小按钮 */
+		}
+		
+		#patient-enter-button {
+			background-color: #0246a7; /* 按钮背景颜色 */
+		}
+		#patient-enter-button:hover {
+			background-color: #02187b;
+			box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+		}
+		
+		#doctor-enter-button {
+			background-color: #1e89ef; /* 按钮背景颜色 */
+		}
+		#doctor-enter-button:hover {
+			background-color: #164de5; 
+			box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+		}
+		.intro-icon {
+            display: flex; /* 使用 Flexbox 布局 */
+            justify-content: space-around; /* 平均分布图标 */
+            align-items: center; /* 垂直居中对齐 */
+            flex-wrap: wrap; /* 允许换行 */
+        }
+
+        .intro-icon .icon-container {
+            text-align: center; /* 使文字居中 */
+            margin: 20px; /* 添加外边距 */
+			transform: translate(0px, 70px); /* 向右下方移动 */
+        }
+
+        .intro-icon i {
+            font-size: 80px; /* 设置图标大小 */
+            color: #5cdffb; /* 图标颜色 */
+            display: block; /* 使图标成为块级元素 */
+			margin: 0 50px 20px 50px; /* 图标之间的间距 */			
+        }
+
+        .intro-icon .text {
+            font-size: 18px; /* 文字大小 */
+            color: black; /* 文字颜色 */
+			font-weight: bold;
+        }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	
+	<!-- 引入 Flatpickr 的 CSS 文件 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<!-- 引入 Flatpickr 的 JavaScript 文件 -->
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	
+	<!-- 引入中文语言包 -->
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script> 
+	
+	<link rel="stylesheet" href="css/intro-screen.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>医患导诊录入一体化平台</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0px;
+            background-color: #fff;
+/* 			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh; */
+        }
+
+    </style>
+</head>
+<body>
+	
+	<div id="intro-page" class="intro-screen">
+	    <div class="intro-content">
+	        <h1>医患导诊录入一体化平台</h1>
+	        <button id="patient-enter-button">
+				<i class="fas fa-procedures" style="margin-right: 8px;"></i>患者
+			</button>
+			<button id="doctor-enter-button">
+				<i class="fas fa-user-md" style="margin-right: 8px;"></i>医生
+			</button>
+	    </div>
+		<div class="intro-icon">
+		        <div class="icon-container">
+		            <i class="fas fa-heartbeat"></i>
+		            <div class="text">Health</div>
+		        </div>
+		        <div class="icon-container">
+		            <i class="fas fa-lightbulb"></i>
+		            <div class="text">Innovation</div>
+		        </div>
+				<div class="icon-container">
+				    <i class="fas fa-robot"></i>
+				    <div class="text">Artificial Intelligence</div>
+				</div>
+		        <div class="icon-container">
+		            <i class="fas fa-handshake"></i>
+		            <div class="text">Communication</div>
+		        </div>
+		        <div class="icon-container">
+		            <i class="fas fa-users"></i>
+		            <div class="text">Cooperation</div>
+		        </div>
+		    </div>
+	</div>
+
+<script>
+    document.getElementById('patient-enter-button').addEventListener('click', function() {
+        window.location.href = 'patient.html';  // 替换为实际的页面地址
+    });
+
+    document.getElementById('doctor-enter-button').addEventListener('click', function() {
+        window.location.href = 'doctor.html';  // 替换为实际的页面地址
+    });
+
+    document.getElementById('back-button').addEventListener('click', function() {
+        window.location.href = 'index.html';  // 替换为主页的实际地址
+    });
+</script>
+	
+</body>
+</html>

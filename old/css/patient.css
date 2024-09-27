@@ -1,0 +1,179 @@
+		html, body {
+		    height: 100%;
+		    margin: 0;
+		    overflow: hidden;
+		}
+		@media (max-width: 768px) {
+		    table {
+		        font-size: 14px;
+		    }
+		}
+
+		#patient-screen {
+		    height: 100%;
+		    width: 100%;
+		    display: flex;
+		    flex-direction: column;
+		}
+
+		.chat-container {
+			height: 100vh;
+		    width: 210vh;
+		    background-color: #fff;
+		    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		    border-radius: 8px;
+		    overflow: hidden;
+			flex: 1; /* 使容器占满父容器的剩余空间 */
+			display: flex;
+			flex-direction: column;
+		}
+
+		.chat-header {
+		    background-color: #02187b;
+		    color: #fff;
+		    text-align: center;
+			display: flex;
+			align-items: center;
+			/* justify-content: center; /* 确保内容在水平方向居中 */ */
+			justify-content: space-between;
+			/* padding: 5px; */
+		}
+		.chat-header h1 {
+		    font-size: 25px;
+			margin-top: 10px;
+		    margin-bottom: 10px;
+			margin-left: 570px;
+		}
+		
+		/* 聊天框样式 */
+		.chat-box {
+			height: 540px;
+			flex: 1;
+			padding: 15px;
+			overflow-y: auto;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start; /* 左对齐消息 */
+		}
+		
+		/* 输入栏样式 */
+		.chat-bar {
+			display: flex;
+			padding: 10px;
+		}
+		
+		#user-input {
+		    flex: 1;
+		    border: 10px;
+		    padding: 10px;
+		    font-size: 16px;
+			margin-right: 20px;
+			margin-left: 20px;
+			margin-bottom: 15px;
+			margin-top: 15px;
+			background-color: #f1f1f1;
+			border-radius: 6px;
+		}
+		
+		.chat-bar button {
+		    background-color: #1e89ef;
+		    color: #fff;
+		    border: none;
+		    padding: 10px;
+		    cursor: pointer;
+		    font-size: 16px;
+			border-radius: 6px;
+			margin-right: 20px;
+			margin-bottom: 15px;
+			margin-top: 15px;
+			transition: transform 0.1s ease; /* 添加过渡效果 */
+		}
+		.chat-bar button:active {
+		    transform: scale(0.9); /* 缩小按钮 */
+		}		
+		.chat-bar button:hover {
+			background-color: #164de5;
+			box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+		}
+		
+		/* 设置消息容器相对定位 */
+		.chat-box {
+		    position: relative;
+		}
+		
+		.message.right::after {
+		    content: "\f007"; /* Font Awesome 用户图标 Unicode */
+		    font-family: "Font Awesome 5 Free"; /* Font Awesome 字体家族 */
+		    font-weight: 900; /* 使用 Font Awesome 的粗体样式 */
+		    color: #0246a7;
+		    font-size: 24px;
+		    position: absolute;
+		    right: -40px; /* 头像距离文本框右边的距离 */
+		    top: 50%;
+		    transform: translateY(-50%); /* 垂直居中 */
+		}
+		
+		.message.left::before {
+		    content: "\f544"; /* Font Awesome 机器人图标 Unicode */
+		    font-family: "Font Awesome 5 Free"; /* Font Awesome 字体家族 */
+		    font-weight: 900; /* 使用 Font Awesome 的粗体样式 */
+		    color: black; /* 机器人的图标颜色 */
+		    font-size: 24px;
+		    position: absolute;
+		    left: -40px; /* 头像距离文本框左边的距离 */
+		    top: 50%;
+		    transform: translateY(-50%); /* 垂直居中 */
+		}
+		
+		/* 确保消息容器足够宽以容纳头像 */
+		.chat-box {
+		    padding-right: 60px; /* 右侧空间 */
+		    padding-left: 60px; /* 左侧空间 */
+		}
+		
+		/* 消息内容样式 */
+		.message {
+		    position: relative; /* 相对定位，以便头像能够正确绝对定位 */
+		    display: inline-block;
+		    padding: 10px;
+		    border-radius: 10px;
+		    max-width: 70%; /* 设置最大宽度 */
+		    word-wrap: break-word; /* 自动换行 */
+		    margin-top: 10px;
+		    margin-bottom: 10px;
+			margin-right: 15px;
+			margin-left: 15px;
+		}
+		
+		/* 右侧消息样式 */
+		.message.right {
+		    background-color: #0246a7;
+		    color: #fff;
+		    align-self: flex-end;
+		    border-top-right-radius: 0; /* 右侧消息边角 */
+		}
+		
+		/* 左侧消息样式 */
+		.message.left {
+		    background-color: #f1f1f1;
+		    align-self: flex-start;
+		    border-top-left-radius: 0; /* 左侧消息边角 */
+		}
+		
+		.back-icon {
+		    color: #fff;
+		    background: none;
+		    border: none;
+		    font-size: 22px;
+		    cursor: pointer;
+		    display: flex;
+		    align-items: center;
+			padding: 6px;
+			border-radius: 6px;
+			margin-left: 20px;
+			margin-right: 20px;
+			transition: transform 0.1s ease; /* 添加过渡效果 */
+		}
+		.back-icon:active {
+			transform: scale(0.9); /* 缩小按钮 */
+		}
