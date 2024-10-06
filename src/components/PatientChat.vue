@@ -5,6 +5,7 @@ import {
   UserOutlined,
   CommentOutlined,
 } from "@ant-design/icons-vue";
+import {BaseURL} from "@/components/Interceptor.js"
 
 const textValue = ref('');
 const chatContent = ref([
@@ -13,22 +14,55 @@ const chatContent = ref([
     content: '您好，请问有什么能帮您的吗？',
   }
 ]);
+const submitAbled = ref(true);
 
-const chatSubmit = () => {
+const chatSubmit = async () => {
   if (!textValue.value) {
     return;
   }
+  submitAbled.value = false;
+  const submitContent = textValue.value;
   setTimeout(() => {
     chatContent.value = [
       ...chatContent.value,
       {
         author: '您',
-        content: textValue.value,
+        content: submitContent,
       },
     ];
     textValue.value = '';
   }, 1000);
-};
+  const formData = new FormData();
+  formData.append('prompt',submitContent);
+  try {
+    const response = await fetch(BaseURL+'/chat/stream', {
+      method: 'POST',
+      body: formData,
+    });
+    const reader = response.body.getReader();
+    const textDecoder = new TextDecoder();
+    // eslint-disable-next-line no-constant-condition
+    chatContent.value = [
+      ...chatContent.value,
+      {
+        author: '智能导诊系统',
+        content: '',
+      },
+    ];
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const {done, value} = await reader.read();
+      if (done) {
+        submitAbled.value = true;
+        break;
+      }
+      chatContent.value[-1].content += textDecoder.decode(value);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    submitAbled.value = true;
+  }
+}
 </script>
 <template>
   <a-breadcrumb style="margin-bottom: 16px">
@@ -46,7 +80,7 @@ const chatSubmit = () => {
               :auto-size="{ minRows: 1, maxRows: 5 }"
           >
           </a-textarea>
-          <a-button @click="chatSubmit" type="primary" :icon="h(SendOutlined)" style="margin-left: 12px"/>
+          <a-button @click="chatSubmit" type="primary" :icon="h(SendOutlined)" :disabled="!submitAbled" style="margin-left: 12px"/>
         </div>
       </template>
       <a-list
@@ -55,7 +89,7 @@ const chatSubmit = () => {
           item-layout="horizontal"
       >
         <template #renderItem="{ item }">
-          <a-list-item>
+          <a-list-item class="chat-content">
             <a-comment
                 style="white-space: pre-line;"
                 :author="item.author"
@@ -63,10 +97,14 @@ const chatSubmit = () => {
             >
               <template #avatar>
                 <a-avatar v-if="item.author === '您'" style="background-color: #52c41a">
-                  <template #icon><UserOutlined /></template>
+                  <template #icon>
+                    <UserOutlined/>
+                  </template>
                 </a-avatar>
                 <a-avatar v-if="item.author !== '您'" style="background-color: #1890ff">
-                  <template #icon><CommentOutlined /></template>
+                  <template #icon>
+                    <CommentOutlined/>
+                  </template>
                 </a-avatar>
               </template>
             </a-comment>
@@ -77,4 +115,7 @@ const chatSubmit = () => {
   </a-typography-paragraph>
 </template>
 <style>
+.chat-content {
+  margin-inline: 0 0 !important;
+}
 </style>

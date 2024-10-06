@@ -26,7 +26,6 @@ function doctorLinkJump(url) {
 
 import {
   HomeOutlined,
-  BarChartOutlined,
   ScheduleOutlined,
   MessageOutlined,
   SettingOutlined,
@@ -54,29 +53,25 @@ import {
         <a-typography-title :level="4" style="color: #f0f0f0;text-align:center;margin-top: 1rem">
           {{ collapsed ? '系统' : '癫痫患者管理系统' }}
         </a-typography-title>
-        <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
+        <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline" triggerSubMenuAction="click">
           <a-menu-item key="station" @click="doctorLinkJump('')">
             <HomeOutlined/>
             <span class="nav-text">工作主页</span>
           </a-menu-item>
-          <a-menu-item key="view" @click="doctorLinkJump('view')">
-            <BarChartOutlined/>
-            <span class="nav-text">数据监控</span>
+          <a-menu-item key="medical" @click="doctorLinkJump('medical')">
+            <MessageOutlined/>
+            <span class="nav-text">线上问诊</span>
           </a-menu-item>
           <a-sub-menu key="sub2">
             <template #title>
             <span>
               <ScheduleOutlined/>
-              <span>病历管理</span>
+              <span>循证系统</span>
             </span>
             </template>
-            <a-menu-item key="patient">患者列表</a-menu-item>
-            <a-menu-item key="record">病历查看</a-menu-item>
+            <a-menu-item key="evidence" @click="doctorLinkJump('evidence')">自动循证</a-menu-item>
+            <a-menu-item key="data" @click="doctorLinkJump('data')">数据查阅</a-menu-item>
           </a-sub-menu>
-          <a-menu-item key="message">
-            <MessageOutlined/>
-            <span>系统通知</span>
-          </a-menu-item>
         </a-menu>
       </div>
       <a-menu :selectable="false" theme="dark" mode="inline" style="margin-bottom: 16px">

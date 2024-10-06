@@ -8,8 +8,10 @@ import ErrorPage from '@/components/ErrorPage.vue';
 import DoctorPage from "@/components/DoctorPage.vue";
 import PatientPage from "@/components/PatientPage.vue";
 import DoctorStation from "@/components/DoctorStation.vue";
-import DoctorView from "@/components/DoctorView.vue";
 import PatientChat from "@/components/PatientChat.vue";
+import DoctorEvidence from "@/components/DoctorEvidence.vue";
+import DoctorData from "@/components/DoctorData.vue";
+import DoctorMedical from "@/components/DoctorMedical.vue";
 import dayjs from "dayjs";
 
 dayjs.locale('zh-cn')
@@ -41,10 +43,24 @@ const router = createRouter({
                     },
                 },
                 {
-                    path: 'view',
-                    component: DoctorView,
+                    path: 'evidence',
+                    component: DoctorEvidence,
                     meta:{
-                        name:'view',
+                        name:'evidence',
+                    },
+                },
+                {
+                    path: 'data',
+                    component: DoctorData,
+                    meta:{
+                        name:'data',
+                    },
+                },
+                {
+                    path: 'medical',
+                    component: DoctorMedical,
+                    meta:{
+                        name:'medical',
                     },
                 },
                 {

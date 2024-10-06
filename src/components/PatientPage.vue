@@ -51,7 +51,7 @@ import {
         <a-typography-title :level="4" style="color: #f0f0f0;text-align:center;margin-top: 1rem">
           {{ collapsed ? '系统' : '患者智能导诊系统' }}
         </a-typography-title>
-        <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
+        <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline" triggerSubMenuAction="click">
           <a-menu-item key="chat" @click="patientLinkJump('')">
             <CommentOutlined />
             <span class="nav-text">对话主页</span>
