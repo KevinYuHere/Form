@@ -49,6 +49,7 @@ const chatSubmit = async () => {
         content: '',
       },
     ];
+    const contentIndex = chatContent.value.length - 1;
     // eslint-disable-next-line no-constant-condition
     while (true) {
       const {done, value} = await reader.read();
@@ -56,7 +57,7 @@ const chatSubmit = async () => {
         submitAbled.value = true;
         break;
       }
-      chatContent.value[-1].content += textDecoder.decode(value);
+      chatContent.value[contentIndex].content += textDecoder.decode(value);
     }
   } catch (error) {
     console.error('Error:', error);
